@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Sample</string>
+	<string>MountainGrowl</string>
 	<key>CFBundleIdentifier</key>
-	<string>info.Growl.Sample</string>
+	<string>com.nxtbgthng.mountaingrowl</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Sample</string>
+	<string>MountainGrowl</string>
 	<key>CFBundlePackageType</key>
 	<string>DISP</string>
 	<key>CFBundleSignature</key>
@@ -21,9 +21,9 @@
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>GrowlPluginAuthor</key>
-	<string>Rudy Richter</string>
+	<string>Ullrich Schäfer</string>
 	<key>GrowlPluginDescription</key>
-	<string>A Sample plugin project for Growl 1.2</string>
+	<string>A Growl plugin for Mountian Lions User Notifications</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSampleDisplay</string>
 </dict>

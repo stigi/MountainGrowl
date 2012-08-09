@@ -24,7 +24,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Sample_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample_Prefix.pch; sourceTree = "<group>"; };
-		8D5B49B6048680CD000E48DA /* Sample.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sample.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* MountainGrowl.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MountainGrowl.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324062F1077A429008EEF09 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = resources/de.lproj/GrowlSamplePrefs.xib; sourceTree = "<group>"; };
 		932406301077A429008EEF09 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = resources/en.lproj/GrowlSamplePrefs.xib; sourceTree = "<group>"; };
 		932406321077A429008EEF09 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* Sample.growlView */,
+				8D5B49B6048680CD000E48DA /* MountainGrowl.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,9 +203,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* Sample */ = {
+		8D5B49AC048680CD000E48DA /* MountainGrowl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MountainGrowl" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -215,10 +215,10 @@
 			);
 			dependencies = (
 			);
-			name = Sample;
+			name = MountainGrowl;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = Sample;
-			productReference = 8D5B49B6048680CD000E48DA /* Sample.growlView */;
+			productReference = 8D5B49B6048680CD000E48DA /* MountainGrowl.growlView */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -226,7 +226,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Sample" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MountainGrowl" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -244,7 +244,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* Sample */,
+				8D5B49AC048680CD000E48DA /* MountainGrowl */,
 			);
 		};
 /* End PBXProject section */
@@ -309,7 +309,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/Sample_Prefix.pch;
+				GCC_PREFIX_HEADER = source/MountainGrowl_Prefix.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/Growl/Plugins";
@@ -317,7 +317,7 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = Sample;
+				PRODUCT_NAME = MountainGrowl;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Debug;
@@ -328,14 +328,14 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/Sample_Prefix.pch;
+				GCC_PREFIX_HEADER = source/MountainGrowl_Prefix.pch;
 				INFOPLIST_FILE = resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/Growl/Plugins";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = Sample;
+				PRODUCT_NAME = MountainGrowl;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Release;
@@ -367,7 +367,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "Sample" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MountainGrowl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
@@ -376,7 +376,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Sample" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MountainGrowl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Debug */,
