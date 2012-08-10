@@ -30,26 +30,6 @@
  */
 
 /*!
- * @defined NSInteger
- * @abstract Typedef to int so Growl will compile on pre-10.5 SDKs.
- */
-#ifndef NSINTEGER_DEFINED
-typedef int NSInteger;
-typedef unsigned int NSUInteger;
-#define NSINTEGER_DEFINED
-#endif
-
-/*!
- * @defined CGFloat
- * @abstract Typedef to float so Growl will compile on pre-10.5 SDKs.
- */
-#ifndef CGFLOAT_DEFINED
-typedef float CGFloat;
-#define CGFLOAT_IS_DOUBLE 0
-#define CGFLOAT_DEFINED
-#endif
-
-/*!
  * @defined GrowlCGFloatCeiling()
  * @abstract Macro for the ceil() function that uses a different precision depending on the CPU architecture.
  */
@@ -71,15 +51,15 @@ typedef float CGFloat;
 #define GrowlCGFloatFloor(x) floorf(x)
 #endif
 
-/*!	@defined	GROWL_TCP_PORT
- *	@abstract	The TCP listen port for Growl notification servers.
+/*!	@defined	GROWL_TCP_DO_PORT
+ *	@abstract	The TCP listen port for Growl's DirectObject-based notification servers.
  */
-#define GROWL_TCP_PORT	23052
+#define GROWL_TCP_DO_PORT	23052
 
-/*!	@defined	GROWL_UDP_PORT
- *	@abstract	The UDP listen port for Growl notification servers.
+/*!	@defined	GROWL_TCP_PORT
+ *	@abstract	The TCP listen port for Growl's protocol-based notification servers.
  */
-#define GROWL_UDP_PORT	9887
+#define GROWL_TCP_PORT	23053
 
 /*!	@defined	GROWL_PROTOCOL_VERSION
  *	@abstract	The current version of the Growl network-notifications protocol (without encryption).
@@ -116,124 +96,27 @@ typedef float CGFloat;
 */
 #define GROWL_TYPE_NOTIFICATION_NOAUTH	5
 
-#define ATTRIBUTE_PACKED __attribute((packed))
-
-/*!	@struct	GrowlNetworkPacket
- *	@abstract	This struct is a header common to all incoming Growl network
- *	 packets which identifies the type and version of the packet.
+/*! @defined GROWL_NOTIFICATION_CLICKED
+ *  @abstract Posted to the default notification center when the user clicks a notification
  */
-struct GrowlNetworkPacket {
-	unsigned char version;
-	unsigned char type;
-} ATTRIBUTE_PACKED;
+#define GROWL_NOTIFICATION_CLICKED		@"GrowlNotificationClicked(Internal)"
 
-/*!
- * @struct GrowlNetworkRegistration
- * @abstract The format of a registration packet.
- * @discussion A Growl client that wants to register with a Growl server sends
- * a packet in this format.
- * @field common The Growl packet header.
- * @field appNameLen The name of the application that is registering.
- * @field numAllNotifications The number of notifications in the list.
- * @field numDefaultNotifications The number of notifications in the list that are enabled by default.
- * @field data Variable-sized data.
+/*! @defined GROWL_NOTIFICATION_TIMED_OUT
+ *  @abstract Posted to the default notification center when a notification times out (or is closed via the close button)
  */
-struct GrowlNetworkRegistration {
-	struct GrowlNetworkPacket common;
-	/*	This name is used both internally and in the Growl
-	 *	 preferences.
-	 *
-	 *	 The application name should remain stable between different versions
-	 *	 and incarnations of your application.
-	 *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0"
-	 *	 and "SurfWriter Lite" are not.
-	 *
-	 *	 In addition to being unsigned, the application name length is in
-	 *	 network byte order.
-	 */
-	unsigned short appNameLen;
-	/*	These names are used both internally and in the Growl
-	 *	 preferences. For this reason, they should be human-readable.
-	 */
-	unsigned char numAllNotifications;
+#define GROWL_NOTIFICATION_TIMED_OUT	@"GrowlNotificationTimedOut(Internal)"
 
-	unsigned char numDefaultNotifications;
-	/*	The variable-sized data of a registration is:
-	 *	 - The application name, in UTF-8 encoding, for appNameLen bytes.
-	 *	 - The list of all notification names.
-	 *	 - The list of default notifications, as 8-bit unsigned indices into the list of all notifications.
-	 *	 - The MD5/SHA256 checksum of all the data preceding the checksum.
-	 *
-	 *	 Each notification name is encoded as:
-	 *	 - Length: two bytes, unsigned, network byte order.
-	 *	 - Name: As many bytes of UTF-8-encoded text as the length says.
-	 *	 And there are numAllNotifications of these.
-	 */
-	unsigned char data[];
-} ATTRIBUTE_PACKED;
-
-/*!
- * @struct GrowlNetworkNotification
- * @abstract The format of a notification packet.
- * @discussion	A Growl client that wants to post a notification to a Growl
- * server sends a packet in this format.
- * @field common The Growl packet header.
- * @field flags The priority number and the sticky bit.
- * @field nameLen The length of the notification name.
- * @field titleLen The length of the notification title.
- * @field descriptionLen The length of the notification description.
- * @field appNameLen The length of the application name.
- * @field data Variable-sized data.
- */
-struct GrowlNetworkNotification {
-	struct GrowlNetworkPacket common;
-	/*!
-	 * @struct GrowlNetworkNotificationFlags
-	 * @abstract Various flags.
-	 * @discussion This 16-bit packed structure contains the priority as a
-	 *  signed 3-bit integer from -2 to +2, and the sticky flag as a single bit.
-	 *  The high 12 bits of the structure are reserved for future use.
-	 * @field reserved reserved for future use.
-	 * @field priority the priority as a signed 3-bit integer from -2 to +2.
-	 * @field sticky the sticky flag.
-	 */
-	struct GrowlNetworkNotificationFlags {
-#ifdef __BIG_ENDIAN__
-		unsigned reserved: 12;
-		signed   priority: 3;
-		unsigned sticky:   1;
-#else
-		unsigned sticky:   1;
-		signed   priority: 3;
-		unsigned reserved: 12;
-#endif
-	} ATTRIBUTE_PACKED flags; //size = 16 (12 + 3 + 1)
-
-	/*	In addition to being unsigned, the notification name length
-	 *	 is in network byte order.
-	 */
-	unsigned short nameLen;
-	/*	@discussion	In addition to being unsigned, the title length is in
-	 *	 network byte order.
-	 */
-	unsigned short titleLen;
-	/*	In addition to being unsigned, the description length is in
-	 *	 network byte order.
-	 */
-	unsigned short descriptionLen;
-	/*	In addition to being unsigned, the application name length
-	 *	 is in network byte order.
-	 */
-	unsigned short appNameLen;
-	/*	The variable-sized data of a notification is:
-	 *	 - Notification name, in UTF-8 encoding, for nameLen bytes.
-	 *	 - Title, in UTF-8 encoding, for titleLen bytes.
-	 *	 - Description, in UTF-8 encoding, for descriptionLen bytes.
-	 *	 - Application name, in UTF-8 encoding, for appNameLen bytes.
-	 *	 - The MD5/SHA256 checksum of all the data preceding the checksum.
-	 */
-	unsigned char data[];
-} ATTRIBUTE_PACKED;
+#define GROWL_NOTIFICATION_CLICK_CONTENT_TYPE			@"NotificationCallbackClickContextType"
+#define GROWL_NOTIFICATION_CALLBACK_URL_TARGET			@"NotificationCallbackURLTarget"
+#define GROWL_NOTIFICATION_CALLBACK_URL_TARGET_METHOD	@"NotificationCallbackURLTargetMethod"
+#define GROWL_NOTIFICATION_INTERNAL_ID					@"Growl Internal Notification ID"
+#define GROWL_NOTIFICATION_GNTP_RECEIVED				@"GNTP Notification Received Headers"
+#define GROWL_NOTIFICATION_GNTP_SENT_BY					@"GNTP Notification Sent-By"
+#define GROWL_GNTP_ORIGIN_MACHINE						@"GNTP Origin-Machine-Name"
+#define GROWL_GNTP_ORIGIN_SOFTWARE_NAME					@"GNTP Origin-Software-Name"
+#define GROWL_GNTP_ORIGIN_SOFTWARE_VERSION				@"GNTP Origin-Software-Version"
+#define GROWL_GNTP_ORIGIN_PLATFORM_NAME					@"GNTP Origin-Platform-Name"
+#define GROWL_GNTP_ORIGIN_PLATFORM_VERSION				@"GNTP Origin-Platform-Versin"
 
 /*!	@defined	GrowlEnabledKey
  *	@abstract	Preference key controlling whether Growl is enabled.
@@ -255,6 +138,11 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_SCREENSHOT_MODE			XSTR("ScreenshotMode")
 
+/*!	@defined	GROWL_CLICK_HANDLER_ENABLED
+ *	@abstract	An NSNumber boolean indicating whether click notifications should be sent to the originating application
+ */
+#define GROWL_CLICK_HANDLER_ENABLED		XSTR("ClickHandlerEnabled")
+
 /*!	@defined	GROWL_APP_LOCATION
  *	@abstract	The location of this application.
  *	@discussion	Contains either the POSIX path to the application, or a file-data dictionary (as used by the Dock).
@@ -262,12 +150,12 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_APP_LOCATION				XSTR("AppLocation")
 
-/*!	@defined	GROWL_REMOTE_ADDRESS
+/*!	@defined	GROWL_UDP_REMOTE_ADDRESS
  *	@abstract	The address of the host who sent this notification/registration.
  *	@discussion	Contains an NSData with the address of the remote host who
  *    sent this notification/registration.
  */
-#define GROWL_REMOTE_ADDRESS			XSTR("RemoteAddress")
+#define GROWL_UDP_REMOTE_ADDRESS			XSTR("RemoteAddress")
 
 /*!
  *	@defined    GROWL_PREFPANE_BUNDLE_IDENTIFIER
@@ -471,6 +359,11 @@ struct GrowlNetworkNotification {
 	CFRelease(floatValue); } while(0)
 #endif
 
+/*!	@defined	GROWL_CLOSE_NOTIFICATION
+ *	@abstract	Notification to close a Growl notification
+ *	@discussion	The object of this notification is the GROWL_NOTIFICATION_INTERNAL_ID of the notification
+ */
+#define GROWL_CLOSE_NOTIFICATION XSTR("GrowlCloseNotification")
 
 /*!	@defined	GROWL_CLOSE_ALL_NOTIFICATIONS
  *	@abstract	Notification to close all Growl notifications
@@ -486,5 +379,30 @@ struct GrowlNetworkNotification {
  * @abstract Compares two floats.
  */
 #define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
+
+#if GROWLHELPERAPP
+extern NSString *const GrowlErrorDomain;
+
+enum {
+	GrowlPluginErrorMinimum = 1000,
+	GrowlPluginErrorMaximum = GrowlPluginErrorMinimum + 999,
+	
+	GrowlDisplayErrorMinimum = GrowlPluginErrorMaximum  + 1,
+	GrowlDisplayErrorMaximum = GrowlDisplayErrorMinimum + 999,
+	
+	GrowlPathwayErrorMinimum = GrowlDisplayErrorMaximum + 1,
+	GrowlPathwayErrorMaximum = GrowlPathwayErrorMinimum + 999,
+};
+
+enum GrowlPathwayErrorCode {
+	//A pathway that can be toggled on or off could not be toggled on.
+	GrowlPathwayErrorCouldNotEnable = GrowlPathwayErrorMinimum,
+	//A pathway that can be toggled on or off could not be toggled off.
+	GrowlPathwayErrorCouldNotDisable,
+};
+
+#endif
+
+#define GrowlVisualDisplayWindowLevel NSStatusWindowLevel
 
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H

@@ -2,7 +2,7 @@
 //  GrowlPlugin.h
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-01.
+//  Created by Peter Hosey on 2005-06-01.
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
@@ -18,7 +18,7 @@
 @interface GrowlPlugin : NSObject {
 	NSString *pluginName, *pluginAuthor, *pluginVersion, *pluginDesc;
 	NSBundle *pluginBundle;
-	NSString *pluginPathname;
+	NSString *pluginPathName;
 
 	NSPreferencePane *preferencePane;
 	NSString	     *prefDomain;
@@ -42,49 +42,47 @@
  */
 - (id) initWithBundle:(NSBundle *)bundle;
 
-
 /*!
  * @method name
  * @abstract Returns the name of the receiver.
  */
-- (NSString *) name;
+@property (nonatomic, copy) NSString *name;
 
 /*!
  * @method author
  * @abstract Returns the author of the receiver.
  */
-- (NSString *) author;
-
-/*!
- * @method pluginDescription
- * @abstract Returns the description of the receiver.
- */
-- (NSString *) pluginDescription;
+@property (nonatomic, copy) NSString *author;
 
 /*!
  * @method version
  * @abstract Returns the version of the receiver.
  */
-- (NSString *) version;
+@property (nonatomic, copy) NSString *version;
+
+/*!
+ * @method pluginDescription
+ * @abstract Returns the plugin's description.
+ */
+@property (nonatomic, copy) NSString *pluginDescription;
 
 /*!
  * @method bundle
  * @abstract Returns the bundle of the receiver.
  */
-- (NSBundle *) bundle;
+@property (nonatomic, retain) NSBundle *bundle;
 
 /*!
  * @method pathname
  * @abstract Returns the pathname of the receiver.
  */
-- (NSString *) pathname;
+@property (nonatomic, copy) NSString *pathname;
 
 /*!
-* @method pathname
+ * @method pathname
  * @abstract Returns the string used to access the preference domain of the receiver.
  */
-- (NSString *) prefDomain;
-
+@property (nonatomic, retain) NSString *prefDomain;
 
 /*!	@method	preferencePane
  *	@abstract	Return an <code>NSPreferencePane</code> instance that manages
@@ -100,6 +98,6 @@
  *	 The default implementation of this method returns <code>nil</code>.
  *	@result	The preference pane. Can be <code>nil</code>.
  */
-- (NSPreferencePane *) preferencePane;
+@property (nonatomic, assign) NSPreferencePane *preferencePane;
 
 @end

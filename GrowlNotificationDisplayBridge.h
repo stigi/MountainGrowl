@@ -2,13 +2,13 @@
 //  GrowlNotificationDisplayBridge.h
 //  Growl
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-05.
+//  Created by Peter Hosey on 2005-06-05.
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import "GrowlDisplayPlugin.h"
 
-@class GrowlApplicationNotification, GrowlDisplayWindowController;
+@class GrowlNotification, GrowlDisplayWindowController;
 
 /*!	@class	GrowlNotificationDisplayBridge
  *	@brief	The File's Owner of a display nib.
@@ -22,7 +22,7 @@
 
 @interface GrowlNotificationDisplayBridge : NSObject {
 	GrowlDisplayPlugin           *display;
-	GrowlApplicationNotification *notification;
+	GrowlNotification *notification;
 	NSString                     *windowNibName;
 	NSMutableArray               *windowControllers;
 	Class                        windowControllerClass;
@@ -40,7 +40,7 @@
  *	@result	An autoreleased display bridge.
  */
 + (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay
-										  notification:(GrowlApplicationNotification *)newNotification
+										  notification:(GrowlNotification *)newNotification
 								 windowControllerClass:(Class)wcc;
 
 /*!	@fn	bridgeWithDisplay:notification:windowNibName:windowControllerClass:
@@ -55,7 +55,7 @@
  *	@result	An autoreleased display bridge.
  */
 + (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay
-										  notification:(GrowlApplicationNotification *)newNotification
+										  notification:(GrowlNotification *)newNotification
 										 windowNibName:(NSString *)newWindowNibName
 								 windowControllerClass:(Class)wcc;
 
@@ -71,7 +71,7 @@
  *	@result	An display bridge.
  */
 - (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay
-		  notification:(GrowlApplicationNotification *)newNotification
+		  notification:(GrowlNotification *)newNotification
  windowControllerClass:(Class)wcc;
 
 /*!	@fn	initWithDisplay:notification:windowNibName:windowControllerClass:
@@ -86,7 +86,7 @@
  *	@result	An display bridge.
  */
 - (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay
-		  notification:(GrowlApplicationNotification *)newNotification
+		  notification:(GrowlNotification *)newNotification
 		 windowNibName:(NSString *)newWindowNibName
  windowControllerClass:(Class)wcc;
 
@@ -124,7 +124,7 @@
  *
  *	@return	The notification being displayed.
  */
-- (GrowlApplicationNotification *) notification;
+- (GrowlNotification *) notification;
 
 /*!	@fn	windowNibName
  *	@brief	Returns the window nib name passed in by \c GrowlDisplayPlugin.
@@ -210,7 +210,7 @@
  * @par
  * The notification
  */
-- (void)setNotification:(GrowlApplicationNotification *)inNotification;
+- (void)setNotification:(GrowlNotification *)inNotification;
 @end
 
 @interface NSArray (GrowlDisplaySearching)

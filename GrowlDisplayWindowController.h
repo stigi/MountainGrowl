@@ -2,8 +2,8 @@
 //  GrowlDisplayWindowController.h
 //  Display Plugins
 //
-//  Created by Mac-arena the Bored Zo on 2005-06-03.
-//  Copyright 2004-2006 The Growl Project. All rights reserved.
+//  Created by Peter Hosey on 2005-06-03.
+//  Copyright 2004-2011 The Growl Project, LLC. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -16,7 +16,7 @@
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
-@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification, GrowlNotificationView;
+@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlNotification, GrowlNotificationView;
 
 typedef enum {
 	GrowlDisplayUnknownStatus = 0,
@@ -25,13 +25,13 @@ typedef enum {
 	GrowlDisplayTransitioningOutStatus
 } GrowlDisplayStatus;
 
-@interface GrowlDisplayWindowController : NSWindowController {
-	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
+@interface GrowlDisplayWindowController : NSWindowController <NSWindowDelegate, NSAnimationDelegate> {
+	GrowlNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
 
 	SEL					             action;
 	id					             target;
-	id					             clickContext;
+	BOOL							 didClick;
 	NSNumber			             *clickHandlerEnabled;
 	NSString			             *appName;
 	NSNumber			             *appPid;
@@ -39,7 +39,7 @@ typedef enum {
 	id					             delegate;
 
 	BOOL				             ignoresOtherNotifications;
-
+    
 	CFTimeInterval                   transitionDuration;
 	NSMapTable                       *startTimes;
 	NSMapTable                       *endTimes;
@@ -48,11 +48,13 @@ typedef enum {
 	
 	CFTimeInterval		             displayDuration;
 	NSUInteger			             screenNumber;
-	NSUInteger			             screenshotMode: 1;
+	BOOL                             screenshotModeEnabled;
 
 	BOOL							 userRequestedClose;
 
 	unsigned			             WCReserved: 30;
+    NSInteger failureCount;
+   BOOL                       queuesNotes;
 }
 
 - (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
@@ -108,44 +110,23 @@ typedef enum {
 #pragma mark -
 
 /* Not to be called directly...these are managed via bindings */
-- (GrowlApplicationNotification *) notification;
-- (void) setNotification:(GrowlApplicationNotification *)theNotification;
+- (GrowlNotification *) notification;
+- (void) setNotification:(GrowlNotification *)theNotification;
 
 /* Used to make an existing window controller update to a new or modified notification */
-- (void) updateToNotification:(GrowlApplicationNotification *)theNotification;
+- (void) updateToNotification:(GrowlNotification *)theNotification;
 
 /* Not to be called directly...for KVO compliance only */
 - (GrowlNotificationDisplayBridge *)bridge;
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 /* Subclasses should call this *after* calling -[super initWithWindw:] to set the overall transition duration ... could offer a user pref as well */
-- (CFTimeInterval) transitionDuration;
-- (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration;
-
-- (CFTimeInterval) displayDuration;
-- (void) setDisplayDuration:(CFTimeInterval)newDuration;
-
-- (BOOL) screenshotModeEnabled;
-- (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;
 
 - (NSScreen *) screen;
 - (void) setScreen:(NSScreen *)newScreen;
 - (void) setScreenNumber:(NSUInteger)newScreenNumber;
 
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
-
-- (NSString *) notifyingApplicationName;
-- (void) setNotifyingApplicationName:(NSString *)inAppName;
-
-- (NSNumber *) notifyingApplicationProcessIdentifier;
-- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *)inAppPid;
-
 - (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 
 - (void) notificationClicked:(id) sender;
 
@@ -158,9 +139,13 @@ typedef enum {
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *)flag;
 
-- (BOOL) ignoresOtherNotifications;
-- (void) setIgnoresOtherNotifications:(BOOL)flag;
-
+@property (nonatomic, assign) BOOL ignoresOtherNotifications;
+@property (nonatomic, assign) SEL action;
+@property (nonatomic, retain) id target;
+@property (nonatomic, assign) BOOL screenshotModeEnabled;
+@property (nonatomic, assign) CFTimeInterval displayDuration;
+@property (nonatomic, assign) CFTimeInterval transitionDuration;
+@property (nonatomic, assign) NSInteger failureCount;
 @end
 
 /*!
