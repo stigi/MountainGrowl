@@ -12,7 +12,9 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlNotification.h"
 
-@interface MountainGrowlDisplay: GrowlDisplayPlugin
+@interface MountainGrowlDisplay: GrowlDisplayPlugin {
+    NSMutableDictionary *growlNotifications;
+}
 
 - (void)displayNotification:(GrowlNotification *)notification;
 

@@ -5,13 +5,8 @@
 //  Copyright 2012 nxtbgthng GmbH All rights reserved.
 //
 
-#import <objc/runtime.h>
-
 #import "MountainGrowlPrefs.h"
 #import "MountainGrowlDisplay.h"
-
-
-static char GrowlNotificationAssociation;
 
 
 @interface MountainGrowlDisplay () <NSUserNotificationCenterDelegate> @end
@@ -19,8 +14,18 @@ static char GrowlNotificationAssociation;
 
 @implementation MountainGrowlDisplay
 
+- (id)init;
+{
+    self = [super init];
+    if (self) {
+        growlNotifications = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
 - (void)dealloc
 {
+    [growlNotifications release];
     [preferencePane release];
     [super dealloc];
 }
@@ -46,8 +51,18 @@ static char GrowlNotificationAssociation;
     [notification setSubtitle:appName];
     [notification setInformativeText:desc];
 
-    // using associated objects here since NSUserNotification can't be subclassed (class cluster or something like that)
-    objc_setAssociatedObject(notification, &GrowlNotificationAssociation, growlNotification, OBJC_ASSOCIATION_RETAIN);
+    [growlNotifications setObject:growlNotification forKey:notification];
+
+    // I didn't yet find a better way to associate growl notifications to user notifications
+    // Tryed subclassing NSUserNotification (did not work. Class cluster?) and using objc_setAssociatedObject
+    // (objc_getAssociatedObject did not return the expected)
+    // So I decided to let notifications time out after a minute to not collect to much memory
+    double delayInSeconds = 60.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [growlNotifications removeObjectForKey:notification];
+    });
+
 
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
     [center setDelegate:self];
@@ -60,15 +75,12 @@ static char GrowlNotificationAssociation;
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
-    GrowlNotification *growlNotification = objc_getAssociatedObject(notification, &GrowlNotificationAssociation);
+    GrowlNotification *growlNotification = [growlNotifications objectForKey:notification];
     if (growlNotification) {
-        // retaining growlNotification to keep it around after releasing the association
-        [[growlNotification retain] autorelease];
-        objc_setAssociatedObject(notification, &GrowlNotificationAssociation, nil, OBJC_ASSOCIATION_RETAIN);
-
         [[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
                                                             object:growlNotification
                                                           userInfo:nil];
+        [growlNotifications removeObjectForKey:growlNotification];
     }
 }
 
