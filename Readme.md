@@ -9,7 +9,7 @@ Enter _Mountain Growl_:
 
 ![Screenshot](http://github.com/stigi/mountaingrowl/raw/master/screenshots/mountain_growl.png)
 
-Other solutions like [Hiss](http://collect3.com.au/hissapp/) are okay, but a actually a weird hack with a lot of down sides. So while waiting for Growl 2 (which hopefully will support the Notification Center) why not use the current Growl with a plugin that does the necessary. All as a 1st class citizen in the Growl.
+Other solutions like [Hiss](http://collect3.com.au/hissapp/) are okay, but a actually a weird hack with a lot of down sides. So while waiting for Growl 2 (which hopefully will support the Notification Center) why not use the current Growl with a plugin that does the necessary. All as a 1st class citizen in Growl.
 
 
 ## Installation
