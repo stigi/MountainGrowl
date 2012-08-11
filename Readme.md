@@ -9,6 +9,5 @@
 
 ## TODOs
 
-- Versioning
 - Website
 - Collecting High Fives
