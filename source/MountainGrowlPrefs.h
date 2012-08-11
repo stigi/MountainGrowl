@@ -7,12 +7,10 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@interface MountainGrowlPrefs: NSPreferencePane {
-    NSString *_mountainGrowlLabel;
-    NSString *_nxtbgthngLabel;
-}
+@interface MountainGrowlPrefs: NSPreferencePane
 
 @property (nonatomic, retain) IBOutlet NSString *mountainGrowlLabel;
 @property (nonatomic, retain) IBOutlet NSString *nxtbgthngLabel;
+@property (nonatomic, retain) IBOutlet NSString *versionLabel;
 
 @end
