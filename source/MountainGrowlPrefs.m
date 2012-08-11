@@ -20,8 +20,25 @@
     self = [super initWithBundle:bundle];
     if(self) {
         self.mountainGrowlLabel = NSLocalizedStringFromTableInBundle(@"Mountain Growl", @"Localizable", bundle, @"Header label");
-        self.nxtbgthngLabel = NSLocalizedStringFromTableInBundle(@"A little present from nxtbgthng. <3", @"Localizable", bundle, @"nxtbgthng sponsor text");
-
+        
+        NSString *nxtbgthngLabel = NSLocalizedStringFromTableInBundle(@"A little present from nxtbgthng. <3", @"Localizable", bundle, @"nxtbgthng sponsor text");;
+        NSMutableAttributedString *attributedNxtbgthngLabel = [[[NSMutableAttributedString alloc] initWithString:nxtbgthngLabel] autorelease];
+        NSRange linkRange = [nxtbgthngLabel rangeOfString:@"nxtbgthng"];
+        if (linkRange.location != NSNotFound) {
+            [attributedNxtbgthngLabel beginEditing];
+            [attributedNxtbgthngLabel addAttribute:NSForegroundColorAttributeName
+                                             value:[NSColor blueColor]
+                                             range:linkRange];
+            [attributedNxtbgthngLabel addAttribute:NSUnderlineStyleAttributeName
+                                             value:[NSNumber numberWithInt:NSSingleUnderlineStyle]
+                                             range:linkRange];
+            [attributedNxtbgthngLabel addAttribute:NSLinkAttributeName
+                                             value:@"http://nxtbgthng.com"
+                                             range:linkRange];
+            [attributedNxtbgthngLabel endEditing];
+        }
+        self.nxtbgthngLabel = attributedNxtbgthngLabel;
+        
         NSDictionary *infoDict = [[NSBundle bundleForClass:[self class]] infoDictionary];
         NSString *buildVersion = [infoDict objectForKey:@"CFBundleVersion"];
         NSString *version = [infoDict objectForKey:@"CFBundleShortVersionString"];

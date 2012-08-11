@@ -10,7 +10,7 @@
 @interface MountainGrowlPrefs: NSPreferencePane
 
 @property (nonatomic, retain) IBOutlet NSString *mountainGrowlLabel;
-@property (nonatomic, retain) IBOutlet NSString *nxtbgthngLabel;
+@property (nonatomic, retain) IBOutlet NSAttributedString *nxtbgthngLabel;
 @property (nonatomic, retain) IBOutlet NSString *versionLabel;
 
 @end
