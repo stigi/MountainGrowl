@@ -132,7 +132,7 @@
 				94D52BCE15D3D6EE002D6080 /* GrowlDefines.h */,
 				94D52BCF15D3D72C002D6080 /* GrowlDefinesInternal.h */,
 			);
-			name = Growl;
+			path = Growl;
 			sourceTree = "<group>";
 		};
 		93596AC70A84222E001C6860 /* Source */ = {
