@@ -13,9 +13,6 @@
 #import "GrowlNotification.h"
 
 @interface MountainGrowlDisplay: GrowlDisplayPlugin
-{
-    NSMutableDictionary *growlNotifications;
-}
 
 - (void)displayNotification:(GrowlNotification *)notification;
 
