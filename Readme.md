@@ -35,4 +35,6 @@ The standard Growl click actions also work.
 - Create a proper website (is this actually needed?)
 - Collecting high fives
 
+_Join the [discussion on Hackernews](http://news.ycombinator.com/item?id=4371043)._
+
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/064d3fb2c2b1b4370756d7b8bd36d853 "githalytics.com")](http://githalytics.com/stigi/MountainGrowl)
