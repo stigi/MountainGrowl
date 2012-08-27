@@ -12,6 +12,8 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlNotification.h"
 
+#define GROWLNOTIFICATIONS_MAXIMUM 10
+
 @interface MountainGrowlDisplay: GrowlDisplayPlugin {
     NSMutableDictionary *growlNotifications;
 }
