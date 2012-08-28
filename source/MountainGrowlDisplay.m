@@ -57,12 +57,10 @@
     // Tryed subclassing NSUserNotification (did not work. Class cluster?) and using objc_setAssociatedObject
     // (objc_getAssociatedObject did not return the expected)
     // So I decided to let notifications time out after a minute to not collect to much memory
-	// *sgade*: Changed so that at least the last 10 notifications are kept
-    double delayInSeconds = 60.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		if ( [growlNotifications count] > GROWLNOTIFICATIONS_MAXIMUM )
-			[growlNotifications removeObjectForKey:notification];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, DISPATCH_DELAY_SECONDS * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+	{
+		[growlNotifications removeObjectForKey:notification];
     });
 
 
