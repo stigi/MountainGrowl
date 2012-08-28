@@ -88,9 +88,7 @@
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
-	if ( [growlNotifications objectForKey:notification] )
-	    return YES;
-	return NO;
+    return YES;
 }
 
 

@@ -14,12 +14,12 @@
 	<string>MountainGrowl</string>
 	<key>CFBundlePackageType</key>
 	<string>DISP</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.1.2</string>
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>0.1.2</string>
+	<string>0.1.1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.1</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>GrowlPluginAuthor</key>
