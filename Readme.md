@@ -14,7 +14,7 @@ Other solutions like [Hiss](http://collect3.com.au/hissapp/) are okay, but a act
 
 ## Installation
 
-- I'm assuming you've already have Growl (version 1.4 required) installed. If not you can get it from the [App Store](http://itunes.apple.com/de/app/growl/id467939042?mt=12).
+- I'm assuming you've already have Growl (version 1.4 required) installed. If not you can get it from the [App Store](http://itunes.apple.com/en/app/growl/id467939042?mt=12).
 - Go & download the latest version of Mountain Growl from the [GitHub download page](https://github.com/stigi/MountainGrowl/downloads).
 - Double click it & Growl should take the install process from there.
 - Make sure to select MountainGrowl as your default style in the Growl display settings.
