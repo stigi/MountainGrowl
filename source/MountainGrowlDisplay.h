@@ -12,6 +12,8 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlNotification.h"
 
+#define DISPATCH_DELAY_SECONDS 60.0
+
 @interface MountainGrowlDisplay: GrowlDisplayPlugin {
     NSMutableDictionary *growlNotifications;
 }
